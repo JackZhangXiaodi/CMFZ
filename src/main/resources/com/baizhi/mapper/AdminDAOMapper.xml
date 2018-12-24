@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AdminDAO">
+    <!-- 查询所有-->
+    <select id="querytByUserName" resultType="Admin">
+        select adminId,adminname,password,salt from t_admin
+        where adminname=#{adminName}
+    </select>
+    <select id="queryById" resultType="Admin">
+        select adminId,adminname,password,salt from t_admin
+        where adminId=#{adminId}
+    </select>
+    <!--修改用户密码-->
+    <update id="update" parameterType="Admin">
+        update t_admin set password=#{password} where adminId=#{adminId}
+    </update>
+</mapper>

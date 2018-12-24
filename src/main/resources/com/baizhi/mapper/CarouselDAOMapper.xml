@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.CarouselDAO">
+    <!-- 查询所有-->
+    <select id="queryAll" resultType="Carousel">
+        select carId,carPicture,carName,carStatus,crateTime, desca from t_carousel
+    </select>
+    <!--根据carId查询-->
+    <select id="queryById" resultType="Carousel">
+        select carId,carPicture,carName,carStatus,crateTime, desca from t_carousel
+        where carId=#{carId}
+    </select>
+    <!--添加轮播图-->
+    <insert id="insert" parameterType="Carousel">
+        insert into t_carousel values(#{carId},#{carPicture},#{carName},#{carStatus},#{crateTime},#{desca})
+    </insert>
+    <!--删除轮播图-->
+    <delete id="delete">
+        delete from t_carousel where carId=#{carId}
+    </delete>
+    <!--修改轮播图-->
+    <update id="update" parameterType="Carousel">
+        update t_carousel set carId=#{carId},carPicture=#{carPicture},carName=#{carName}
+        ,carStatus=#{carStatus},crateTime=#{crateTime},desca=#{desca} where carId=#{carId}
+    </update>
+</mapper>

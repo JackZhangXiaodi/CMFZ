@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+        <!--开启注解扫描-->
+        <context:component-scan base-package="com.baizhi.serviceimpl"/>
+        <!--引入小配置文件-->
+        <context:property-placeholder location="classpath:jdbc.properties"/>
+        <!--创建数据源-->
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="driverClassName" value="${mysql.driverClassName}"/>
+            <property name="url" value="${mysql.url}"></property>
+            <property name="username" value="${mysql.user}"></property>
+            <property name="password" value="${mysql.password}"></property>
+        </bean>
+        <!--创建sqlSessionFactory工厂-->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <property name="dataSource" ref="dataSource"></property>
+            <property name="mapperLocations" value="classpath:com/baizhi/mapper/*Mapper.xml"></property>
+            <property name="typeAliasesPackage" value="com.baizhi.entity"></property>
+        </bean>
+        <!--创建DAO-->
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+            <property name="basePackage" value="com.baizhi.dao"></property>
+        </bean>
+        <!--创建事务管理-->
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource"></property>
+        </bean>
+        <!--开启事务生效-->
+        <tx:annotation-driven transaction-manager="transactionManager"/>
+        <!--声明shiro请求处理对象-->
+        <bean id="shiroFilterFactoryBean" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+            <!--依赖注入安全管理器-->
+            <property name="securityManager" ref="securityManager"/>
+            <!--依赖注入shiro登陆路径-->
+            <property name="loginUrl" value="/login.jsp"/>
+            <!--授权路径-->
+            <!--过滤器链-->
+            <property name="filterChainDefinitions">
+                <value>
+                    /admin/**=anon
+                    /login.jsp=anon
+                    /css/**=anon
+                    /img/**=anon
+                    /js/**=anon
+                    /script/**=anon
+                    /themes/**=anon
+                    /codeController/**=anon
+                    /main/**=user
+                    /**=user
+                </value>
+            </property>
+        </bean>
+        <!--创建安全管理器-->
+        <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+            <!--依赖注入Realm域对象-->
+            <property name="realms">
+                <!--给realm集合添加元素-->
+                <list>
+                    <ref bean="realm"/>
+                </list>
+            </property>
+            <!--依赖注入记住我管理器-->
+            <property name="rememberMeManager" ref="rememberMeManager"/>
+        </bean>
+        <!--创建记住我的管理器-->
+        <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+            <!--依赖注入cookie-->
+            <property name="cookie" ref="cookie"/>
+        </bean>
+        <!--创建cookie对象-->
+        <bean id="cookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+            <!--设置cookie存活时间-->
+            <property name="maxAge" value="604800"/>
+            <!--设置cookie的名称-->
+            <property name="name" value="rm"/>
+            <!--cookie的作用域-->
+            <property name="path" value="/"/>
+        </bean>
+        <!--创建Realm 获取加密的数据源-->
+        <bean id="realm" class="com.baizhi.util.MyRealm">
+            <property name="credentialsMatcher" ref="credentialsMatcher"></property>
+        </bean>
+        <!--创建凭证匹配器-->
+        <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+            <property name="hashAlgorithmName" value="MD5"></property>
+        </bean>
+</beans>

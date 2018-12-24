@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.MenuDAO">
+    <resultMap id="menuMap" type="Menu">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"></result>
+        <result property="iconcls" column="iconcls"></result>
+        <result property="href" column="href"></result>
+        <result property="parentId" column="parentid"></result>
+        <result property="lev" column="lev"></result>
+        <collection property="children" ofType="Menu" javaType="list">
+            <id property="id" column="eid"></id>
+            <result property="title" column="etitle"></result>
+            <result property="iconcls" column="eiconcls"></result>
+            <result property="href" column="ehref"></result>
+            <result property="parentId" column="eparentId"></result>
+        </collection>
+    </resultMap>
+    <!-- 查询所有-->
+    <select id="queryAll" resultMap="menuMap">
+      select a.id ,a.title,a.iconcls,a.href,a.parentId,a.lev,
+      b.id eid,b.title etitle,b.iconcls eiconcls,b.href ehref,b.parentid eparentid
+      from t_menu a
+      inner join t_menu b
+      on a.id = b.parentid where a.parentid is null
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.UserDAO">
+    <!-- 查询所有-->
+    <select id="queryAll" resultType="User">
+        select userId,name,dharmaName,sex,province,photo,autogroaph,userstatus,
+        phone,password,salt,city,registerTime from t_user
+    </select>
+    <!--根据手机号登陆-->
+    <select id="queryUserByphone" resultType="User">
+        select userId,name,dharmaName,sex,province,photo,autogroaph,userstatus,
+        phone,password,salt,city,registerTime from t_user
+        where phone = #{phone}
+    </select>
+    <!--根据id查询用户的信息-->
+    <select id="queryById" resultType="User">
+        select userId,name,dharmaName,sex,photo,autogroaph,
+        phone,password,salt,city,province,registerTime from t_user
+        where userid=#{userId}
+    </select>
+    <!--修改用户的状态-->
+    <update id="update" parameterType="User">
+        update t_user set userstatus=#{userstatus} where userid=#{userId}
+    </update>
+    <!--用户的修改个人信息-->
+    <update id="updateUser" parameterType="User">
+        update t_user set name=#{name},dharmaName=#{dharmaName},sex=#{sex},province=#{province},
+        photo=#{photo},autogroaph=#{autogroaph},phone=#{phone},password=#{password},
+        salt=#{salt},city=#{city},registerTime=#{registerTime}
+        where userId=#{userId}
+    </update>
+    <!--添加用户信息-->
+    <insert id="insert" parameterType="User">
+        insert into t_user values(#{userId},#{name},#{dharmaName},#{sex},#{province},
+        #{photo},#{autogroaph},#{userstatus},#{phone},#{password},#{salt},#{city},#{registerTime})
+    </insert>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ArticleDAO">
+    <!-- 查询所有-->
+    <select id="queryAll" resultType="Article">
+        select artId,artTitle,artAuthor,artDate,artContent,artPicture
+        from t_article
+    </select>
+    <!--添加文章信息-->
+    <insert id="insert" parameterType="Article">
+          insert into t_article values(#{artId},#{artTitle},#{artAuthor},#{artDate},#{artContent},#{artPicture})
+    </insert>
+    <!--删除文章-->
+    <delete id="delete" >
+        delete from t_article where artId=#{artId}
+    </delete>
+</mapper>

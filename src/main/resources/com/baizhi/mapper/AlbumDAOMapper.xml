@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AlbumDAO">
+    <resultMap id="albumResultMap" type="Album">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"/>
+        <result property="albumAuthor" column="albumAuthor"/>
+        <result property="albumVoice" column="albumVoice"/>
+        <result property="season" column="season"/>
+        <result property="createdate" column="createdate"/>
+        <result property="albumPicture" column="albumPicture"/>
+        <result property="content" column="content"/>
+        <result property="score" column="score"/>
+        <collection property="children" javaType="List" ofType="Chapter">
+            <id property="id" column="cid"/>
+            <result property="name" column="bname"/>
+            <result property="chapSize" column="chapSize"/>
+            <result property="chapUrl" column="chapUrl"/>
+            <result property="albumName" column="albumName"/>
+            <result property="duration" column="duration"/>
+            <result property="uploadDate" column="uploadDate"/>
+        </collection>
+    </resultMap>
+    <!-- 查询所有-->
+    <select id="queryAll" resultMap="albumResultMap">
+        select a.id,a.name,a.albumAuthor,a.albumVoice,a.season,a.createdate,a.albumPicture,
+        a.content,a.score,c.id cid,c.name bname,c.chapSize,c.chapUrl,c.albumName,c.duration,c.uploadDate
+        from t_album a
+        left join t_chapter c
+        on a.name=c.albumName
+    </select>
+    <!--详情展示-->
+    <select id="queryByIdAlbum" resultMap="albumResultMap">
+        select a.id,a.name,a.albumAuthor,a.albumVoice,a.season,a.createdate,a.albumPicture,
+        a.content,a.score
+        from t_album a
+        where a.id=#{id}
+    </select>
+    <!--分页查询-->
+    <select id="queryAllByPage" resultMap="albumResultMap">
+        select a.id,a.name,a.albumAuthor,a.albumVoice,a.season,a.createdate,a.albumPicture,
+        a.content,a.score,c.id cid,c.name bname,c.chapSize,c.chapUrl,c.albumName,c.duration,c.uploadDate
+        from t_album a
+        left join t_chapter c
+        on a.name=c.albumName
+        limit #{page},#{rows}
+    </select>
+    <!--查询数据库有效条数-->
+    <select id="queryTotalCounts" resultType="Long">
+        select count(id) from t_album
+    </select>
+    <!--添加专辑-->
+    <insert id="insert" parameterType="Album">
+        insert into t_album values(#{id},#{name},#{albumAuthor},#{albumVoice}
+        ,#{season},#{createdate},#{albumPicture},#{content},#{score})
+    </insert>
+    <!--删除专辑-->
+    <delete id="delete">
+        delete from t_album where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.GuruDAO">
+    <!-- 查询所有上师-->
+    <select id="queryAll" resultType="Guru">
+      select guruId,guruName,guruDescribe,guruPhoto,guruStatus
+      from t_guru
+    </select>
+    <!--根据ID查询上师信息-->
+    <select id="queryById" resultType="Guru">
+      select guruId,guruName,guruDescribe,guruPhoto,guruStatus
+      from t_guru where guruId =#{guruId}
+    </select>
+    <!--添加上师的信息-->
+    <insert id="insert" parameterType="Guru">
+        insert into t_guru values(#{guruId},#{guruName} ,#{guruDescribe},#{guruPhoto},#{guruStatus})
+    </insert>
+    <!--修改上师的状态-->
+    <update id="update" parameterType="Guru">
+        update t_guru set guruStatus=#{guruStatus} where guruId=#{guruId}
+    </update>
+    <!--删除上师-->
+    <delete id="delete">
+        delete from t_guru where guruId=#{guruId}
+    </delete>
+</mapper>

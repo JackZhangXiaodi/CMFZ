@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        <!--开启注解扫描-->
+        <context:component-scan base-package="com.baizhi.controller"/>
+        <!--创建处理器适配器和处理器映射器-->
+        <mvc:annotation-driven/>
+        <!--创建视图解析器-->
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <property name="prefix" value="/"></property>
+            <property name="suffix" value=".jsp"></property>
+        </bean>
+        <!--解决静态问题-->
+        <mvc:default-servlet-handler/>
+        <!--上传下载-->
+        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        </bean>
+        <!--声明拦截器-->
+        <!--配置拦截器-->
+        <!--<mvc:interceptors>
+            <mvc:interceptor>
+                <mvc:mapping path="/**"/>
+                <mvc:exclude-mapping path="/admin/**"/>
+                <mvc:exclude-mapping path="/codeController/**"/>
+                <mvc:exclude-mapping path="/webapp/**"/>
+                    <mvc:exclude-mapping path="/**/*.css"/>
+                    <mvc:exclude-mapping path="/**/*.js"/>
+                    <mvc:exclude-mapping path="/**/*.png"/>
+                    <mvc:exclude-mapping path="/**/*.gif"/>
+                    <mvc:exclude-mapping path="/**/*.jpg"/>
+                    <mvc:exclude-mapping path="/**/*.jpeg"/>
+                <ref bean="myInterceptor"></ref>
+            </mvc:interceptor>
+        </mvc:interceptors>-->
+</beans>

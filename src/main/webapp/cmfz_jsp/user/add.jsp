@@ -1,0 +1,23 @@
+<%@page isELIgnored="false" pageEncoding="UTF-8" contentType="text/html; UTF-8" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<h1>用户注册</h1>
+</head>
+<body>
+		<div class="login">
+			<form id="loginForm" action="${pageContext.request.contextPath}/user/add" method="post" enctype="multipart/form-data">
+				昵称:<input type="text"  name="name" maxlength="20"/><br>
+				法名:<input type="text"  name="dharmaName" maxlength="20"/><br>
+				性别:男<input type="radio"  name="sex" maxlength="20"/>
+					 女:<input type="radio"  name="sex"  maxlength="20"/><br>
+				手机号:<input type="text"  name="phone"  maxlength="20"/><br>
+				省:<input type="text"  name="province"  maxlength="20"/><br>
+				photo:<input type="file" name="file"   maxlength="20" autocomplete="off"/><br>
+				密码:<input type="text" name="password"   maxlength="20" autocomplete="off"/><br>
+				签名:<input type="text" name="autogroaph"   maxlength="20" autocomplete="off"/><br>
+				市/区:<input type="text" name="city"   maxlength="20" autocomplete="off"/><br>
+				<input type="submit" value="注册">
+			</form>
+		</div>
+</body>
+</html>
