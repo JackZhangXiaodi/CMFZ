@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.entity.Address;
 import com.baizhi.entity.User;
 
 import java.util.List;
@@ -10,6 +11,9 @@ public interface UserService {
 
     //根据id查询用户的信息
     User findOne(String id);
+
+    //查询所有的用户的分布
+    List<Address> findAddr();
 
     //登陆
     User findPhone(User user);

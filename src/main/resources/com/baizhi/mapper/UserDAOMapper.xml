@@ -7,6 +7,10 @@
         select userId,name,dharmaName,sex,province,photo,autogroaph,userstatus,
         phone,password,salt,city,registerTime from t_user
     </select>
+    <!--查询所有用户全国的分不情况-->
+    <select id="queryUserAddr" resultType="Address">
+        select count(*) value,city name from t_user group by city
+    </select>
     <!--根据手机号登陆-->
     <select id="queryUserByphone" resultType="User">
         select userId,name,dharmaName,sex,province,photo,autogroaph,userstatus,

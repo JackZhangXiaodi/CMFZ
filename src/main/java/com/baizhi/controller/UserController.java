@@ -1,9 +1,9 @@
 package com.baizhi.controller;
 
+import com.baizhi.entity.Address;
 import com.baizhi.entity.User;
 import com.baizhi.service.UserService;
 import com.baizhi.util.ViewObject;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -93,5 +93,14 @@ public class UserController {
 
         userService.modifyOne(user);
         return "redirect:/user/showAll";
+    }
+//    查询所有的用户的分布情况
+    @RequestMapping("/addr")
+    @ResponseBody
+    public HashMap<String, Object> findAddr(){
+        List<Address> addr = userService.findAddr();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("data",addr);
+        return map;
     }
 }

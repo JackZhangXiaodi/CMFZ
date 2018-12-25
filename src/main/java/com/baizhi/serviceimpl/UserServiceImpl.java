@@ -1,6 +1,7 @@
 package com.baizhi.serviceimpl;
 
 import com.baizhi.dao.UserDAO;
+import com.baizhi.entity.Address;
 import com.baizhi.entity.User;
 import com.baizhi.service.UserService;
 import com.baizhi.util.RandomSaltUtil;
@@ -38,7 +39,15 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.queryById(id);
         return user;
     }
-//用户修改
+//    查询所有用户的分布
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<Address> findAddr() {
+        List<Address> addr = userDAO.queryUserAddr();
+        return addr;
+    }
+
+    //用户修改
     @Override
     public void modifyOne(User user) {
         user.setRegisterTime(new Date());
